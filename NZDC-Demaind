@@ -1,4 +1,4 @@
-###################FOR MERCHAR##########################################################
+################### FOR MERCHAR ##########################################################
 1 SignUpForMerchant
   1.1 Fill in/update MerchartInfo
     (1) name
@@ -16,6 +16,8 @@
   2.5 discount
   2.6 on-sell
   2.7 description
+  2.8 sales vollume(xiao liang)
+  2.9 score(1-10)
 3 Upload/delete tables
   3.1 add table
   3.2 delete table 
@@ -36,5 +38,17 @@
     4.12 pay type(cash/wechat) &
     4.13 pay status(false/true) 
     4.14 take-food type
+  5 count
+    5.1 income of last-day
+    5.2 orders compelete of last-day
+    5.3 total orders 
+    5.4 total income
+    
+  ###############  FRO CUSTOMER  #################################################################
+  1 order dish page 
+    1.1 scan QR code of table
+    1.2 other
+  2 order page
+  3 personal page
     
   
