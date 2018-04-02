@@ -1,14 +1,14 @@
 /**
-*½âÃÜ»ñÈ¡Î¢ĞÅunionid
+*è§£å¯†è·å–å¾®ä¿¡unionid
 */
 class  WXGetUnionID
 {
-	private String wxUsername; //ÓÃ»§Ãû
-	private String wxPassword; //ÃÜÂë
+	private String wxUsername; //ç”¨æˆ·å
+	private String wxPassword; //å¯†ç 
 	private String openid;
-	private String session_key;//»á»°ÃÜÔ¿
-	private String encryptedData;//¼ÓÃÜÊı¾İ
-	private String iv;//³õÊ¼ÏòÁ¿
+	private String session_key;//ä¼šè¯å¯†é’¥
+	private String encryptedData;//åŠ å¯†æ•°æ®
+	private String iv;//åˆå§‹å‘é‡
 	
 	public String getSession_key() {
 		return session_key;
@@ -59,46 +59,6 @@ class  WXGetUnionID
 		this.wxPassword = wxPassword;
 	}
 	
-	/**
-	 * Î¢ĞÅĞ¡³ÌĞòµÇÂ¼²¢°ó¶¨openid
-	 * */
-	public String wxLogin() {
-		logger.info("Î¢ĞÅĞ¡³ÌĞòµÇÂ¼  username£º+ " + wxUsername + "password: " +wxPassword);
-		User saltUser = loginService.queryUserByName(wxUsername);
-		if(saltUser == null) {
-			logger.info("Ã»ÓĞ¸ÃÓÃ»§Ãû");
-			actionResult = ActionResult.getActionResult(new OpAttributes("loginUser",null));
-			return returnType();
-		}
-		wxPassword = (IDGenerator.encryptEncode((wxPassword + saltUser.getSalt()), GlobaConstants.ENCRYPTION_ALGORITHM));
-		User loginUser = userService.wxLogin(wxUsername,wxPassword);
-		if(loginUser == null) {
-			logger.info("ÃÜÂë´íÎó");
-			actionResult = ActionResult.getActionResult(new OpAttributes("loginUser",null));
-			return returnType();
-		}
-		Boolean isSuccess = false;
-		if("".equals(openid) || openid == null) {
-			isSuccess = true;
-		}else {
-			isSuccess = userService.bindWXOpenid(wxUsername,openid);
-		}
-		if(isSuccess) {
-			logger.info("°ó¶¨Î¢ĞÅĞ¡³ÌĞòopenid³É¹¦");
-			List<String> permissionList = loginService.getPermissionByShiro(wxUsername);
-			if(permissionList != null) {
-				actionResult = ActionResult.getActionResult(new OpAttributes("loginUser",loginUser).add("permissionList", permissionList));
-			}else {
-				logger.info("»ñÈ¡ÓÃ»§È¨ÏŞÊ§°Ü");
-			}
-		}else {
-			logger.info("°ó¶¨Î¢ĞÅĞ¡³ÌĞòopenidÊ§°Ü");
-			actionResult = ActionResult.getActionResult(new OpAttributes("loginUser",null));
-			return returnType();
-		}
-		return returnType();
-	}
-	
 	private String stringArray;
 
 	public String getStringArray() {
@@ -110,11 +70,11 @@ class  WXGetUnionID
 	}
 
 	/**
-	 * ½âÃÜunionid
+	 * è§£å¯†unionid
 	 * @throws UnsupportedEncodingException 
 	 * */
 	public String unlockUnionid() throws UnsupportedEncodingException {
-		logger.info("½âÃÜunionid");
+		logger.info("è§£å¯†unionid");
 		String unionid = unlockUtil(openid,new String(session_key.getBytes()),new String(iv.getBytes()),new String(encryptedData.getBytes()));
 		String[] userInfo = unionid.split(",");
 		StringBuffer sb = new StringBuffer();
@@ -129,15 +89,15 @@ class  WXGetUnionID
 	}
 
 	private String unlockUtil(String openid2, String session_key2, String iv2, String encryptedData2) {
-		// ±»¼ÓÃÜµÄÊı¾İ
+		// è¢«åŠ å¯†çš„æ•°æ®
         byte[] dataByte = Base64.decode(encryptedData2);
-        // ¼ÓÃÜÃØÔ¿
+        // åŠ å¯†ç§˜é’¥
         byte[] keyByte = Base64.decode(session_key2);
-        // Æ«ÒÆÁ¿
+        // åç§»é‡
         byte[] ivByte = Base64.decode(iv2);
         
         try {
-               // Èç¹ûÃÜÔ¿²»×ã16Î»£¬ÄÇÃ´¾Í²¹×ã.  Õâ¸öif ÖĞµÄÄÚÈİºÜÖØÒª
+               // å¦‚æœå¯†é’¥ä¸è¶³16ä½ï¼Œé‚£ä¹ˆå°±è¡¥è¶³.  è¿™ä¸ªif ä¸­çš„å†…å®¹å¾ˆé‡è¦
             int base = 16;
             if (keyByte.length % base != 0) {
                 int groups = keyByte.length / base + (keyByte.length % base != 0 ? 1 : 0);
@@ -146,13 +106,13 @@ class  WXGetUnionID
                 System.arraycopy(keyByte, 0, temp, 0, keyByte.length);
                 keyByte = temp;
             }
-            // ³õÊ¼»¯
+            // åˆå§‹åŒ–
             Security.addProvider(new BouncyCastleProvider());
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding","BC");
             SecretKeySpec spec = new SecretKeySpec(keyByte, "AES");
             AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES");
             parameters.init(new IvParameterSpec(ivByte));
-            cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// ³õÊ¼»¯
+            cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// åˆå§‹åŒ–
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
                 String result = new String(resultByte, "UTF-8");
