@@ -24,8 +24,7 @@
   @Import 可以在 @Bean 注解的方法中引用另一个 @Configuration 类的实例：
 `  @Configuration
   public class ConfigA {
-
-    @Bean
+   @Bean
     public A a() {
         return new A();
     }
@@ -34,7 +33,6 @@
   @Configuration
   @Import(ConfigA.class)
   public class ConfigB {
-
     @Bean
     public B b() {
         return new B();
@@ -44,7 +42,6 @@
   以上，实例化AplicationContext的时候只要提供 B 类：
   `public static void main(String[] args) {
     ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigB.class);
-
     // now both beans A and B will be available...
     A a = ctx.getBean(A.class);
     B b = ctx.getBean(B.class);
@@ -57,16 +54,12 @@
  ` @Configuration
   @ImportResource("classpath:/com/acme/properties-config.xml")
   public class AppConfig {
-
     @Value("${jdbc.url}")
     private String url;
-
     @Value("${jdbc.username}")
     private String username;
-
     @Value("${jdbc.password}")
     private String password;
-
     @Bean
     public DataSource dataSource() {
         return new DriverManagerDataSource(url, username, password);
@@ -197,19 +190,15 @@
 *可以使用在有参或无参方法中：
           
    ` public class BlackListNotifier {
-
       private String notificationAddress;
-
       public void setNotificationAddress(String notificationAddress) {
         this.notificationAddress = notificationAddress;
       }
-
       @EventListener
       public void processBlackListEvent(BlackListEvent event) {
         // notify appropriate parties via notificationAddress...
       }
     }
-
     @EventListener({ContextStartedEvent.class, ContextRefreshedEvent.class})
 	public void handleContextStart() {
 	 ...
