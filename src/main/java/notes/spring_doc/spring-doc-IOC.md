@@ -1,10 +1,10 @@
 ##################### spring 官方文档阅读笔记 （@Configuration 的使用）###########
 
 1 说明
-  @Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； 
-@Configuration 通过被 @bean注解的方法来声明bean。
+  @Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； <br/>
+  @Configuration 通过被 @bean注解的方法来声明bean。<br/>
 
-2 只有在 @Configuration 注解上的类中，且使用了 @Bean 的方法中，才能声明内部bean（即调用其他 @bean方法）：
+2 只有在 @Configuration 注解上的类中，且使用了 @Bean 的方法中，才能声明内部bean（即调用其他 @bean方法）：<br/>
 
  ` @Configuration
   public class AppConfig {
@@ -19,9 +19,9 @@
   }`
 
 
-##################### spring 官方文档阅读笔记 （@Import 的使用）###########
-1 说明 
-  @Import 可以在 @Bean 注解的方法中引用另一个 @Configuration 类的实例：
+##################### spring 官方文档阅读笔记 （@Import 的使用）########### <br/>
+1 说明 <br/>
+  @Import 可以在 @Bean 注解的方法中引用另一个 @Configuration 类的实例：<br/>
 `  @Configuration
   public class ConfigA {
    @Bean
@@ -39,7 +39,7 @@
     }
   }`
 
-  以上，实例化AplicationContext的时候只要提供 B 类：
+  以上，实例化AplicationContext的时候只要提供 B 类：<br/>
   `public static void main(String[] args) {
     ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigB.class);
     // now both beans A and B will be available...
@@ -48,9 +48,9 @@
 }`
 
 
-*注 ： spring 4.2 开始，支持导入其他组件类。
+*注 ： spring 4.2 开始，支持导入其他组件类。<br/>
 
-2 @ImportResource 可一直接导入xml文件，以引用xml重定义的 bean：
+2 @ImportResource 可一直接导入xml文件，以引用xml重定义的 bean：<br/>
  ` @Configuration
   @ImportResource("classpath:/com/acme/properties-config.xml")
   public class AppConfig {
@@ -66,12 +66,12 @@
     }
   }`
 
-  ##properties-config.xml
+  ##properties-config.xml <br/>
   `<beans>
     <context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
   </beans>`
 
-  ##jdbc.properties
+  ##jdbc.properties <br/>
  ` jdbc.url=jdbc:hsqldb:hsql://localhost/xdb
   jdbc.username=sa
   jdbc.password=`
@@ -84,9 +84,9 @@
 
 
 
-################ @Profile #################################
-#1 说明
-  当有多个配置文件时，可以使用@Profile注解，指定使用哪个配置文件：
+################ @Profile ################################# <br/>
+#1 说明 <br/>
+  当有多个配置文件时，可以使用@Profile注解，指定使用哪个配置文件： <br/>
  ` @Configuration
   @Profile("development")
   public class StandaloneDataConfig {
@@ -110,16 +110,16 @@
     }
   }`
 
-#2 激活配置文件
+#2 激活配置文件 <br/>
   `AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
   ctx.getEnvironment().setActiveProfiles("development");
   ctx.register(SomeConfig.class, StandaloneDataConfig.class, JndiDataConfig.class);
   ctx.refresh();
 
-  *注意：可同时激活多个：
+  *注意：可同时激活多个：<br/>
   ctx.getEnvironment().setActiveProfiles("profile1", "profile2");`
 
-#3 指定默认配置文件
+#3 指定默认配置文件 <br/>
 
 `@Configuration
   @Profile("default")
@@ -133,7 +133,7 @@
     }
   }`
 
-#4 配置优先级
+#4 配置优先级 <br/>
 	For a common StandardServletEnvironment, the full hierarchy looks as follows, with the highest-precedence entries at the top:
 
 	`ServletConfig parameters (if applicable, e.g. in case of a DispatcherServlet context)
@@ -145,7 +145,7 @@
 	JVM system properties ("-D" command-line arguments)
 
 	JVM system environment (operating system environment variables)`
-#5 @PropertySource 可获取.property文件中的值
+#5 @PropertySource 可获取.property文件中的值 <br/>
 
    ` @Configuration
     @PropertySource("classpath:/com/myco/app.properties")
@@ -161,7 +161,7 @@
        }
     }`
 
-  *注意 ${} 占位符能获取已经注册的属性值：
+  *注意 ${} 占位符能获取已经注册的属性值： <br/>
 
    ` @Configuration
     @PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")
@@ -177,17 +177,17 @@
        }
     }`
 
-#6 事件监听
+#6 事件监听 <br/>
 
-标准监听事件：
+标准监听事件： <br/>
 1 ContextRefreshedEvent
 2 ContextStartedEvent
 3 ContextStoppedEvent
 4 ContextClosedEvent
 5 RequestHandledEvent
 
-事件监听注解 @EventListener
-*可以使用在有参或无参方法中：
+事件监听注解 @EventListener <br/>
+*可以使用在有参或无参方法中：<br/>
           
    ` public class BlackListNotifier {
       private String notificationAddress;
@@ -204,32 +204,34 @@
 	 ...
     }`
 
-*也可以通过注解的条件属性来添加额外的运行时过滤，该属性定义了一个SpEL表达式，该表达式应该与实际调用特定事件的方法相匹配。
-原文：
-/*It is also possible to add additional runtime filtering via the condition attribute of the annotation 
-that defines a SpEL expression that should match to actually invoke the method for a particular event.*/
+*也可以通过注解的条件属性来添加额外的运行时过滤，该属性定义了一个SpEL表达式，该表达式应该与实际调用特定事件的方法相匹配。 <br/>
+  原文： <br/>
+/*It is also possible to add additional runtime filtering via the condition attribute of the annotation  <br/>
+that defines a SpEL expression that should match to actually invoke the method for a particular event.*/ <br/>
 	
    ` @EventListener(condition = "#blEvent.test == 'foo'")
     public void processBlackListEvent(BlackListEvent blEvent) {
 	 // notify appropriate parties via notificationAddress...
     }`
 
-详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation)
+详情 [查看](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation "监听事件注解") <br/>
 
-*添加 @Async 可以以异步的方式处理事件，但是需注意以下两点：
-1 调用者不能捕获处理事件过程中跑出的异常
-2 不能发送回复信息
+*添加 @Async 可以以异步的方式处理事件，但是需注意以下两点： <br/>
+1 调用者不能捕获处理事件过程中跑出的异常 <br/>
+2 不能发送回复信息 <br/>
 
-*事件执行排序 @Order(number)
+*事件执行排序 @Order(number) <br/>
 
-*Generic events（通用事件）
-You may also use generics to further define the structure of your event. Consider an EntityCreatedEvent<T> where T is the type of the actual entity that got created. You can create the following listener definition to only receive EntityCreatedEvent for a Person:
+*Generic events（通用事件） <br/>
+You may also use generics to further define the structure of your event. Consider an EntityCreatedEvent<T>  <br/>
+where T is the type of the actual entity that got created. You can create the following listener definition  <br/>
+to only receive EntityCreatedEvent for a Person: <br/>
 
 	`@EventListener
 	public void onPersonCreated(EntityCreatedEvent<Person> event) {
 	    ...
 	}`
 
-#7 以Java EE RAR 的形式部署spring 应用 详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar)
+#7 以Java EE RAR 的形式部署spring 应用 详情 [查看](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar "java EE RAR形式部署") <br/>
 
-****注意 ApplicationContext 包含了 BeanFactory 所有的功能，普通的BeanFactory 不支持例如aop等很多的特性，且实现一些功能特别的繁琐。
+****注意 ApplicationContext 包含了 BeanFactory 所有的功能，普通的BeanFactory 不支持例如aop等很多的特性，且实现一些功能特别的繁琐。 <br/>
