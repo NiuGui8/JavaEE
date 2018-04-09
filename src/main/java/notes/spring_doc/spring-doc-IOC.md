@@ -6,7 +6,7 @@
 
 2 只有在 @Configuration 注解上的类中，且使用了 @Bean 的方法中，才能声明内部bean（即调用其他 @bean方法）：
 
- ``` @Configuration
+ ` @Configuration
   public class AppConfig {
     @Bean
     public Foo foo() {
@@ -16,13 +16,13 @@
     public Bar bar() {
         return new Bar();
     }
-  }```
+  }`
 
 
 ##################### spring 官方文档阅读笔记 （@Import 的使用）###########
 1 说明 
   @Import 可以在 @Bean 注解的方法中引用另一个 @Configuration 类的实例：
-```  @Configuration
+`  @Configuration
   public class ConfigA {
 
     @Bean
@@ -39,22 +39,22 @@
     public B b() {
         return new B();
     }
-  }```
+  }`
 
   以上，实例化AplicationContext的时候只要提供 B 类：
-  public static void main(String[] args) {
+  `public static void main(String[] args) {
     ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigB.class);
 
     // now both beans A and B will be available...
     A a = ctx.getBean(A.class);
     B b = ctx.getBean(B.class);
-}
+}`
 
 
 *注 ： spring 4.2 开始，支持导入其他组件类。
 
 2 @ImportResource 可一直接导入xml文件，以引用xml重定义的 bean：
- ``` @Configuration
+ ` @Configuration
   @ImportResource("classpath:/com/acme/properties-config.xml")
   public class AppConfig {
 
@@ -71,9 +71,9 @@
     public DataSource dataSource() {
         return new DriverManagerDataSource(url, username, password);
     }
-  }```
+  }`
 
- ``` ##properties-config.xml
+ ` ##properties-config.xml
   <beans>
     <context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
   </beans>
@@ -87,14 +87,14 @@
     ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
     TransferService transferService = ctx.getBean(TransferService.class);
     // ...
-  }```
+  }`
 
 
 
 ################ @Profile #################################
 #1 说明
   当有多个配置文件时，可以使用@Profile注解，指定使用哪个配置文件：
- ``` @Configuration
+ ` @Configuration
   @Profile("development")
   public class StandaloneDataConfig {
     @Bean
@@ -115,7 +115,7 @@
         Context ctx = new InitialContext();
         return (DataSource) ctx.lookup("java:comp/env/jdbc/datasource");
     }
-  }```
+  }`
 
 #2 激活配置文件
   ```AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
@@ -124,11 +124,11 @@
   ctx.refresh();
 
   *注意：可同时激活多个：
-  ctx.getEnvironment().setActiveProfiles("profile1", "profile2");```
+  ctx.getEnvironment().setActiveProfiles("profile1", "profile2");`
 
 #3 指定默认配置文件
 
-```@Configuration
+`@Configuration
   @Profile("default")
   public class DefaultDataConfig {
     @Bean
@@ -138,7 +138,7 @@
             .addScript("classpath:com/bank/config/sql/schema.sql")
             .build();
     }
-  }```
+  }`
 
 #4 配置优先级
 	For a common StandardServletEnvironment, the full hierarchy looks as follows, with the highest-precedence entries at the top:
