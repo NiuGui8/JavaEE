@@ -180,3 +180,62 @@
         return testBean;
     }
   }
+
+#6 事件监听
+
+标准监听事件：
+1 ContextRefreshedEvent
+2 ContextStartedEvent
+3 ContextStoppedEvent
+4 ContextClosedEvent
+5 RequestHandledEvent
+
+事件监听注解 @EventListener
+*可以使用在有参或无参方法中：
+          
+    public class BlackListNotifier {
+
+      private String notificationAddress;
+
+      public void setNotificationAddress(String notificationAddress) {
+        this.notificationAddress = notificationAddress;
+      }
+
+      @EventListener
+      public void processBlackListEvent(BlackListEvent event) {
+        // notify appropriate parties via notificationAddress...
+      }
+    }
+
+    @EventListener({ContextStartedEvent.class, ContextRefreshedEvent.class})
+	public void handleContextStart() {
+	 ...
+    }
+*也可以通过注解的条件属性来添加额外的运行时过滤，该属性定义了一个SpEL表达式，该表达式应该与实际调用特定事件的方法相匹配。
+原文：
+/*It is also possible to add additional runtime filtering via the condition attribute of the annotation 
+that defines a SpEL expression that should match to actually invoke the method for a particular event.*/
+	
+    @EventListener(condition = "#blEvent.test == 'foo'")
+    public void processBlackListEvent(BlackListEvent blEvent) {
+	 // notify appropriate parties via notificationAddress...
+    }
+详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation)
+
+*添加 @Async 可以以异步的方式处理事件，但是需注意以下两点：
+1 调用者不能捕获处理事件过程中跑出的异常
+2 不能发送回复信息
+
+*事件执行排序 @Order(number)
+
+*Generic events（通用事件）
+You may also use generics to further define the structure of your event. Consider an EntityCreatedEvent<T> where T is the type of the actual entity that got created. You can create the following listener definition to only receive EntityCreatedEvent for a Person:
+
+@EventListener
+public void onPersonCreated(EntityCreatedEvent<Person> event) {
+    ...
+}
+
+#7 以Java EE RAR 的形式部署spring 应用 详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar)
+
+****注意 ApplicationContext 包含了 BeanFactory 所有的功能，普通的BeanFactory 不支持例如aop等很多的特性，且实现一些功能特别的繁琐。
