@@ -73,17 +73,17 @@
     }
   }`
 
- ` ##properties-config.xml
-  <beans>
+  ##properties-config.xml
+  `<beans>
     <context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
-  </beans>
+  </beans>`
 
   ##jdbc.properties
-  jdbc.url=jdbc:hsqldb:hsql://localhost/xdb
+ ` jdbc.url=jdbc:hsqldb:hsql://localhost/xdb
   jdbc.username=sa
-  jdbc.password=
+  jdbc.password=`
 
-  public static void main(String[] args) {
+ ` public static void main(String[] args) {
     ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
     TransferService transferService = ctx.getBean(TransferService.class);
     // ...
@@ -118,7 +118,7 @@
   }`
 
 #2 激活配置文件
-  ```AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+  `AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
   ctx.getEnvironment().setActiveProfiles("development");
   ctx.register(SomeConfig.class, StandaloneDataConfig.class, JndiDataConfig.class);
   ctx.refresh();
@@ -143,7 +143,7 @@
 #4 配置优先级
 	For a common StandardServletEnvironment, the full hierarchy looks as follows, with the highest-precedence entries at the top:
 
-	ServletConfig parameters (if applicable, e.g. in case of a DispatcherServlet context)
+	`ServletConfig parameters (if applicable, e.g. in case of a DispatcherServlet context)
 
 	ServletContext parameters (web.xml context-param entries)
 
@@ -151,10 +151,10 @@
 
 	JVM system properties ("-D" command-line arguments)
 
-	JVM system environment (operating system environment variables)
+	JVM system environment (operating system environment variables)`
 #5 @PropertySource 可获取.property文件中的值
 
-    @Configuration
+   ` @Configuration
     @PropertySource("classpath:/com/myco/app.properties")
     public class AppConfig {
       @Autowired
@@ -166,11 +166,11 @@
           testBean.setName(env.getProperty("testbean.name"));
           return testBean;
        }
-    }
+    }`
 
   *注意 ${} 占位符能获取已经注册的属性值：
 
-    @Configuration
+   ` @Configuration
     @PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")
     public class AppConfig {
       @Autowired
@@ -182,7 +182,7 @@
           testBean.setName(env.getProperty("testbean.name"));
           return testBean;
        }
-    }
+    }`
 
 #6 事件监听
 
@@ -196,7 +196,7 @@
 事件监听注解 @EventListener
 *可以使用在有参或无参方法中：
           
-    public class BlackListNotifier {
+   ` public class BlackListNotifier {
 
       private String notificationAddress;
 
@@ -213,17 +213,17 @@
     @EventListener({ContextStartedEvent.class, ContextRefreshedEvent.class})
 	public void handleContextStart() {
 	 ...
-    }
+    }`
 
 *也可以通过注解的条件属性来添加额外的运行时过滤，该属性定义了一个SpEL表达式，该表达式应该与实际调用特定事件的方法相匹配。
 原文：
 /*It is also possible to add additional runtime filtering via the condition attribute of the annotation 
 that defines a SpEL expression that should match to actually invoke the method for a particular event.*/
 	
-    @EventListener(condition = "#blEvent.test == 'foo'")
+   ` @EventListener(condition = "#blEvent.test == 'foo'")
     public void processBlackListEvent(BlackListEvent blEvent) {
 	 // notify appropriate parties via notificationAddress...
-    }
+    }`
 
 详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation)
 
@@ -236,10 +236,10 @@ that defines a SpEL expression that should match to actually invoke the method f
 *Generic events（通用事件）
 You may also use generics to further define the structure of your event. Consider an EntityCreatedEvent<T> where T is the type of the actual entity that got created. You can create the following listener definition to only receive EntityCreatedEvent for a Person:
 
-	@EventListener
+	`@EventListener
 	public void onPersonCreated(EntityCreatedEvent<Person> event) {
 	    ...
-	}
+	}`
 
 #7 以Java EE RAR 的形式部署spring 应用 详情 [查看] (https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar)
 
