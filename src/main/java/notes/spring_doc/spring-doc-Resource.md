@@ -119,9 +119,9 @@ ResourceLoader的实现类，可以返回一个资源实体：
 
 <table>
   <tr>
-    <th width=33%>前缀</th>
-    <th width=33%,>例子</th>
-    <th width="34%">说明</th>
+    <th width=30%>前缀</th>
+    <th width=30%,>例子</th>
+    <th width="40%">说明</th>
   </tr>
   <tr>
     <td> classpath: </td>
