@@ -28,22 +28,27 @@ Spring 的 Resource接口能更好的处理底层资源:
 + exists()
 + isOpen()
 + getDescription()
+
 ---
 
 ### getInputStream()
 定位和打开资源，返回一个可供读资源的的输入流InputStream,需要及时关闭流。
+
 ---
 
 ### exists()
 判断资源是否确实存在
+
 ---
 
 ### isOpen()
 这个资源是否代表一个带有开放流的句柄，如果为true，inputSream不能被多次读取，读取完一次就立马关闭流，防止资源内存泄漏。
+
 ---
 
 ### getDescription()
 返回资源的描述信息，这通常是完全限定的文件名或资源的实际URL。
+
 ---
 
 ## Resource实现类
@@ -54,30 +59,37 @@ UrlResource，包含了java.util.URL,可以用来访问任何通常通过URL访�
 + file： 通过文件系统来访问资源 
 + http: 通过http协议访问资源
 + ftp: 通过FTP通道来访问资源等等
+
 ---
 
 PropertyEditor 可以决定创建哪个实现类,当资源字符串的前缀为已知的种类时，可以创建更适合的实现类，当无法识别时，默认为普通的URL字符串，即创建UrlResource。
+
 ---
 
 ### ClassPathResource
 从类路径中获取资源，但是不能获取jar中没有扩展到类路径的资源。它使用线程上下文类加载器、给定的类加载器或载入资源的给定类。
 处理classpath:前缀字符串时可用此实现。
+
 ---
 
 ### FileSystemResource
 This is a Resource implementation for java.io.File handles. It obviously supports resolution as a File, and as a URL.
+
 ---
 
 ### ServletContextResource
 用来处理ServletContext相关的资源，在相关web应用程序的根目录中解释相关路径。支持URL和流操作。
+
 ---
 
 ### InputStreamResource
 为给定InputStream的实现，当没有其他合适的实现类可用时才用此类，如果您需要将资源描述符保留在某个地方，或者您需要多次读取一条流，则不要使用它。
+
 ---
 
 ### ByteArrayResource
 为给定的字节数组的实现，为给定的字节数组创建了一个ByteArrayInputStream ；它对于从任何给定的字节数组中加载内容非常有用，而不需要使用单一的InputStreamResource。
+
 ---
 
 ## ResourceLoader
