@@ -4,6 +4,7 @@
 		*或相对于ServletContext 
 # Resource
 Spring 的 Resource接口能更好的处理底层资源.
+
 	public interface Resource extends InputStreamSource {
 		boolean exists();
 		boolean isOpen();
