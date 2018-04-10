@@ -119,7 +119,7 @@ ResourceLoader的实现类，可以返回一个资源实体：
 
 <table>
   <tr>
-    <th width=330%>前缀</th>
+    <th width=33%>前缀</th>
     <th width=33%,>例子</th>
     <th width="34%">说明</th>
   </tr>
