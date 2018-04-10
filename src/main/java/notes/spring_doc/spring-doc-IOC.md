@@ -1,8 +1,8 @@
 # spring 官方文档阅读笔记 （@Configuration 的使用）
 
 ## 说明
-  +@Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； 
-  +@Configuration 通过被 @bean注解的方法来声明bean。
+  + @Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； 
+  + @Configuration 通过被 @bean注解的方法来声明bean。
 
 ## 只有在 @Configuration 注解上的类中，且使用了 @Bean 的方法中，才能声明内部bean（即调用其他 @bean方法）：
 
@@ -234,8 +234,8 @@ that defines a SpEL expression that should match to actually invoke the method f
 
 添加 @Async 可以以异步的方式处理事件，但是需注意以下两点： 
 
-1 调用者不能捕获处理事件过程中跑出的异常 
-2 不能发送回复信息 
++ 调用者不能捕获处理事件过程中跑出的异常 
++ 不能发送回复信息 
 
 *事件执行排序 @Order(number) <
 
