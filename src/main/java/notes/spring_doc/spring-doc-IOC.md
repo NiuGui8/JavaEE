@@ -1,142 +1,153 @@
-##################### spring ¹Ù·½ÎÄµµÔÄ¶Á±Ê¼Ç £¨@Configuration µÄÊ¹ÓÃ£©###########
+# spring å®˜æ–¹æ–‡æ¡£é˜…è¯»ç¬”è®° ï¼ˆ@Configuration çš„ä½¿ç”¨ï¼‰###########
 
-1 ËµÃ÷
-  @Configuration ÊÇÒ»¸öÀÛ¼Æ±ğµÄ×¢½â£¬ËüÖ¸Ã÷ÁËÒ»¸öbean ¶¨ÒåµÄÀ´Ô´µÄÒ»¸ö¶ÔÏó£» <br/>
-  @Configuration Í¨¹ı±» @bean×¢½âµÄ·½·¨À´ÉùÃ÷bean¡£<br/>
+## è¯´æ˜
+  +@Configuration æ˜¯ä¸€ä¸ªç´¯è®¡åˆ«çš„æ³¨è§£ï¼Œå®ƒæŒ‡æ˜äº†ä¸€ä¸ªbean å®šä¹‰çš„æ¥æºçš„ä¸€ä¸ªå¯¹è±¡ï¼› 
+  +@Configuration é€šè¿‡è¢« @beanæ³¨è§£çš„æ–¹æ³•æ¥å£°æ˜beanã€‚
 
-2 Ö»ÓĞÔÚ @Configuration ×¢½âÉÏµÄÀàÖĞ£¬ÇÒÊ¹ÓÃÁË @Bean µÄ·½·¨ÖĞ£¬²ÅÄÜÉùÃ÷ÄÚ²¿bean£¨¼´µ÷ÓÃÆäËû @bean·½·¨£©£º<br/>
+## åªæœ‰åœ¨ @Configuration æ³¨è§£ä¸Šçš„ç±»ä¸­ï¼Œä¸”ä½¿ç”¨äº† @Bean çš„æ–¹æ³•ä¸­ï¼Œæ‰èƒ½å£°æ˜å†…éƒ¨beanï¼ˆå³è°ƒç”¨å…¶ä»– @beanæ–¹æ³•ï¼‰ï¼š
 
- ` @Configuration
-  public class AppConfig {
-    @Bean
-    public Foo foo() {
-        return new Foo(bar());
-    }
-    @Bean
-    public Bar bar() {
-        return new Bar();
-    }
-  }`
-
-
-##################### spring ¹Ù·½ÎÄµµÔÄ¶Á±Ê¼Ç £¨@Import µÄÊ¹ÓÃ£©########### <br/>
-1 ËµÃ÷ <br/>
-  @Import ¿ÉÒÔÔÚ @Bean ×¢½âµÄ·½·¨ÖĞÒıÓÃÁíÒ»¸ö @Configuration ÀàµÄÊµÀı£º<br/>
-`  @Configuration
-  public class ConfigA {
-   @Bean
-    public A a() {
-        return new A();
-    }
-  }
-
-  @Configuration
-  @Import(ConfigA.class)
-  public class ConfigB {
-    @Bean
-    public B b() {
-        return new B();
-    }
-  }`
-
-  ÒÔÉÏ£¬ÊµÀı»¯AplicationContextµÄÊ±ºòÖ»ÒªÌá¹© B Àà£º<br/>
-  `public static void main(String[] args) {
-    ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigB.class);
-    // now both beans A and B will be available...
-    A a = ctx.getBean(A.class);
-    B b = ctx.getBean(B.class);
-}`
+	@Configuration
+	public class AppConfig {
+		@Bean
+		public Foo foo() {
+			return new Foo(bar());
+		}
+		@Bean
+		public Bar bar() {
+			return new Bar();
+		}
+	}
 
 
-*×¢ £º spring 4.2 ¿ªÊ¼£¬Ö§³Öµ¼ÈëÆäËû×é¼şÀà¡£<br/>
+# spring å®˜æ–¹æ–‡æ¡£é˜…è¯»ç¬”è®° ï¼ˆ@Import çš„ä½¿ç”¨ï¼‰
+## è¯´æ˜ 
 
-2 @ImportResource ¿ÉÒ»Ö±½Óµ¼ÈëxmlÎÄ¼ş£¬ÒÔÒıÓÃxmlÖØ¶¨ÒåµÄ bean£º<br/>
- ` @Configuration
-  @ImportResource("classpath:/com/acme/properties-config.xml")
-  public class AppConfig {
-    @Value("${jdbc.url}")
-    private String url;
-    @Value("${jdbc.username}")
-    private String username;
-    @Value("${jdbc.password}")
-    private String password;
-    @Bean
-    public DataSource dataSource() {
-        return new DriverManagerDataSource(url, username, password);
-    }
-  }`
+  @Import å¯ä»¥åœ¨ @Bean æ³¨è§£çš„æ–¹æ³•ä¸­å¼•ç”¨å¦ä¸€ä¸ª @Configuration ç±»çš„å®ä¾‹ï¼š
+  
+	@Configuration
+	public class ConfigA {
+			@Bean
+			public A a() {
+			return new A();
+			}
+		}
 
-  ##properties-config.xml <br/>
-  `<beans>
-    <context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
-  </beans>`
+		@Configuration
+		@Import(ConfigA.class)
+		public class ConfigB {
+			@Bean
+			public B b() {
+			return new B();
+			}
+		}
 
-  ##jdbc.properties <br/>
- ` jdbc.url=jdbc:hsqldb:hsql://localhost/xdb
-  jdbc.username=sa
-  jdbc.password=`
-
- ` public static void main(String[] args) {
-    ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-    TransferService transferService = ctx.getBean(TransferService.class);
-    // ...
-  }`
+  ä»¥ä¸Šï¼Œå®ä¾‹åŒ–AplicationContextçš„æ—¶å€™åªè¦æä¾› B ç±»ï¼š
+  
+	public static void main(String[] args) {
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigB.class);
+		// now both beans A and B will be available...
+		A a = ctx.getBean(A.class);
+		B b = ctx.getBean(B.class);
+	}
 
 
+*æ³¨ ï¼š spring 4.2 å¼€å§‹ï¼Œæ”¯æŒå¯¼å…¥å…¶ä»–ç»„ä»¶ç±»ã€‚
 
-################ @Profile ################################# <br/>
-#1 ËµÃ÷ <br/>
-  µ±ÓĞ¶à¸öÅäÖÃÎÄ¼şÊ±£¬¿ÉÒÔÊ¹ÓÃ@Profile×¢½â£¬Ö¸¶¨Ê¹ÓÃÄÄ¸öÅäÖÃÎÄ¼ş£º <br/>
- ` @Configuration
-  @Profile("development")
-  public class StandaloneDataConfig {
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-            .setType(EmbeddedDatabaseType.HSQL)
-            .addScript("classpath:com/bank/config/sql/schema.sql")
-            .addScript("classpath:com/bank/config/sql/test-data.sql")
-            .build();
-    }
-  }
+## @ImportResource å¯ä¸€ç›´æ¥å¯¼å…¥xmlæ–‡ä»¶ï¼Œä»¥å¼•ç”¨xmlé‡å®šä¹‰çš„ beanï¼š
 
-  @Configuration
-  @Profile("production")
-  public class JndiDataConfig {
-    @Bean(destroyMethod="")
-    public DataSource dataSource() throws Exception {
-        Context ctx = new InitialContext();
-        return (DataSource) ctx.lookup("java:comp/env/jdbc/datasource");
-    }
-  }`
+	@Configuration
+	@ImportResource("classpath:/com/acme/properties-config.xml")
+	public class AppConfig {
+		@Value("${jdbc.url}")
+		private String url;
+		@Value("${jdbc.username}")
+		private String username;
+		@Value("${jdbc.password}")
+		private String password;
+		@Bean
+		public DataSource dataSource() {
+			return new DriverManagerDataSource(url, username, password);
+		}
+	}
 
-#2 ¼¤»îÅäÖÃÎÄ¼ş <br/>
-  `AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-  ctx.getEnvironment().setActiveProfiles("development");
-  ctx.register(SomeConfig.class, StandaloneDataConfig.class, JndiDataConfig.class);
-  ctx.refresh();
+### properties-config.xml 
+  
+	<beans>
+		<context:property-placeholder location="classpath:/com/acme/jdbc.properties"/>
+	</beans>
 
-  *×¢Òâ£º¿ÉÍ¬Ê±¼¤»î¶à¸ö£º<br/>
-  ctx.getEnvironment().setActiveProfiles("profile1", "profile2");`
+### jdbc.properties 
+  
+	jdbc.url=jdbc:hsqldb:hsql://localhost/xdb
+	jdbc.username=sa
+	jdbc.password=
 
-#3 Ö¸¶¨Ä¬ÈÏÅäÖÃÎÄ¼ş <br/>
+	public static void main(String[] args) {
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+		TransferService transferService = ctx.getBean(TransferService.class);
+		// ...
+	}
 
-`@Configuration
-  @Profile("default")
-  public class DefaultDataConfig {
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-            .setType(EmbeddedDatabaseType.HSQL)
-            .addScript("classpath:com/bank/config/sql/schema.sql")
-            .build();
-    }
-  }`
 
-#4 ÅäÖÃÓÅÏÈ¼¶ <br/>
-	For a common StandardServletEnvironment, the full hierarchy looks as follows, with the highest-precedence entries at the top:
 
-	`ServletConfig parameters (if applicable, e.g. in case of a DispatcherServlet context)
+# @Profile 
+## è¯´æ˜ 
+
+  å½“æœ‰å¤šä¸ªé…ç½®æ–‡ä»¶æ—¶ï¼Œå¯ä»¥ä½¿ç”¨@Profileæ³¨è§£ï¼ŒæŒ‡å®šä½¿ç”¨å“ªä¸ªé…ç½®æ–‡ä»¶ï¼š
+  
+	@Configuration
+	@Profile("development")
+	public class StandaloneDataConfig {
+		@Bean
+		public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder()
+		    .setType(EmbeddedDatabaseType.HSQL)
+		    .addScript("classpath:com/bank/config/sql/schema.sql")
+		    .addScript("classpath:com/bank/config/sql/test-data.sql")
+		    .build();
+		}
+	}
+
+	@Configuration
+	@Profile("production")
+	public class JndiDataConfig {
+		@Bean(destroyMethod="")
+		public DataSource dataSource() throws Exception {
+		Context ctx = new InitialContext();
+		return (DataSource) ctx.lookup("java:comp/env/jdbc/datasource");
+		}
+	}
+
+## æ¿€æ´»é…ç½®æ–‡ä»¶ 
+
+	AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+	ctx.getEnvironment().setActiveProfiles("development");
+	ctx.register(SomeConfig.class, StandaloneDataConfig.class, JndiDataConfig.class);
+	ctx.refresh();
+
+## å¯åŒæ—¶æ¿€æ´»å¤šä¸ªï¼š
+  
+	ctx.getEnvironment().setActiveProfiles("profile1", "profile2");
+
+## æŒ‡å®šé»˜è®¤é…ç½®æ–‡ä»¶ 
+
+	@Configuration
+	@Profile("default")
+	public class DefaultDataConfig {
+		@Bean
+		public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder()
+		    .setType(EmbeddedDatabaseType.HSQL)
+		    .addScript("classpath:com/bank/config/sql/schema.sql")
+		    .build();
+		}
+	}
+
+## é…ç½®ä¼˜å…ˆçº§
+
+For a common StandardServletEnvironment, the full hierarchy looks as follows, with the highest-precedence entries at the top:
+
+	ServletConfig parameters (if applicable, e.g. in case of a DispatcherServlet context)
 
 	ServletContext parameters (web.xml context-param entries)
 
@@ -144,94 +155,101 @@
 
 	JVM system properties ("-D" command-line arguments)
 
-	JVM system environment (operating system environment variables)`
-#5 @PropertySource ¿É»ñÈ¡.propertyÎÄ¼şÖĞµÄÖµ <br/>
+	JVM system environment (operating system environment variables)
+	
+## @PropertySource å¯è·å–.propertyæ–‡ä»¶ä¸­çš„å€¼ 
 
-   ` @Configuration
-    @PropertySource("classpath:/com/myco/app.properties")
-    public class AppConfig {
-      @Autowired
-      Environment env;
+	@Configuration
+	@PropertySource("classpath:/com/myco/app.properties")
+	public class AppConfig {
+		@Autowired
+		Environment env;
 
-      @Bean
-      public TestBean testBean() {
-          TestBean testBean = new TestBean();
-          testBean.setName(env.getProperty("testbean.name"));
-          return testBean;
-       }
-    }`
+		@Bean
+		public TestBean testBean() {
+		  TestBean testBean = new TestBean();
+		  testBean.setName(env.getProperty("testbean.name"));
+		  return testBean;
+		}
+	}
 
-  *×¢Òâ ${} Õ¼Î»·ûÄÜ»ñÈ¡ÒÑ¾­×¢²áµÄÊôĞÔÖµ£º <br/>
+## æ³¨æ„ ${} å ä½ç¬¦èƒ½è·å–å·²ç»æ³¨å†Œçš„å±æ€§å€¼ï¼š
 
-   ` @Configuration
-    @PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")
-    public class AppConfig {
-      @Autowired
-      Environment env;
+	@Configuration
+	@PropertySource("classpath:/com/${my.placeholder:default/path}/app.properties")
+	public class AppConfig {
+		@Autowired
+		Environment env;
 
-      @Bean
-      public TestBean testBean() {
-          TestBean testBean = new TestBean();
-          testBean.setName(env.getProperty("testbean.name"));
-          return testBean;
-       }
-    }`
+		@Bean
+		public TestBean testBean() {
+		  TestBean testBean = new TestBean();
+		  testBean.setName(env.getProperty("testbean.name"));
+		  return testBean;
+		}
+	}
 
-#6 ÊÂ¼ş¼àÌı <br/>
+## äº‹ä»¶ç›‘å¬ 
 
-±ê×¼¼àÌıÊÂ¼ş£º <br/>
+### æ ‡å‡†ç›‘å¬äº‹ä»¶ï¼š 
+
 1 ContextRefreshedEvent
 2 ContextStartedEvent
 3 ContextStoppedEvent
 4 ContextClosedEvent
 5 RequestHandledEvent
 
-ÊÂ¼ş¼àÌı×¢½â @EventListener <br/>
-*¿ÉÒÔÊ¹ÓÃÔÚÓĞ²Î»òÎŞ²Î·½·¨ÖĞ£º<br/>
+### äº‹ä»¶ç›‘å¬æ³¨è§£ @EventListener
+
+#### å¯ä»¥ä½¿ç”¨åœ¨æœ‰å‚æˆ–æ— å‚æ–¹æ³•ä¸­ï¼š
           
-   ` public class BlackListNotifier {
-      private String notificationAddress;
-      public void setNotificationAddress(String notificationAddress) {
-        this.notificationAddress = notificationAddress;
-      }
-      @EventListener
-      public void processBlackListEvent(BlackListEvent event) {
-        // notify appropriate parties via notificationAddress...
-      }
-    }
-    @EventListener({ContextStartedEvent.class, ContextRefreshedEvent.class})
-	public void handleContextStart() {
-	 ...
-    }`
+	public class BlackListNotifier {
+		private String notificationAddress;
+		public void setNotificationAddress(String notificationAddress) {
+		this.notificationAddress = notificationAddress;
+		}
+		@EventListener
+		public void processBlackListEvent(BlackListEvent event) {
+		// notify appropriate parties via notificationAddress...
+		}
+		}
+		@EventListener({ContextStartedEvent.class, ContextRefreshedEvent.class})
+		public void handleContextStart() {
+		 ...
+	}
 
-*Ò²¿ÉÒÔÍ¨¹ı×¢½âµÄÌõ¼şÊôĞÔÀ´Ìí¼Ó¶îÍâµÄÔËĞĞÊ±¹ıÂË£¬¸ÃÊôĞÔ¶¨ÒåÁËÒ»¸öSpEL±í´ïÊ½£¬¸Ã±í´ïÊ½Ó¦¸ÃÓëÊµ¼Êµ÷ÓÃÌØ¶¨ÊÂ¼şµÄ·½·¨ÏàÆ¥Åä¡£ <br/>
-  Ô­ÎÄ£º <br/>
-/*It is also possible to add additional runtime filtering via the condition attribute of the annotation  <br/>
-that defines a SpEL expression that should match to actually invoke the method for a particular event.*/ <br/>
+### ä¹Ÿå¯ä»¥é€šè¿‡æ³¨è§£çš„æ¡ä»¶å±æ€§æ¥æ·»åŠ é¢å¤–çš„è¿è¡Œæ—¶è¿‡æ»¤ï¼Œè¯¥å±æ€§å®šä¹‰äº†ä¸€ä¸ªSpELè¡¨è¾¾å¼ï¼Œè¯¥è¡¨è¾¾å¼åº”è¯¥ä¸å®é™…è°ƒç”¨ç‰¹å®šäº‹ä»¶çš„æ–¹æ³•ç›¸åŒ¹é…ã€‚ 
+
+  åŸæ–‡ï¼š 
+  
+/*It is also possible to add additional runtime filtering via the condition attribute of the annotation  
+that defines a SpEL expression that should match to actually invoke the method for a particular event.*/ 
 	
-   ` @EventListener(condition = "#blEvent.test == 'foo'")
-    public void processBlackListEvent(BlackListEvent blEvent) {
+	@EventListener(condition = "#blEvent.test == 'foo'")
+	public void processBlackListEvent(BlackListEvent blEvent) {
 	 // notify appropriate parties via notificationAddress...
-    }`
+	}
 
-ÏêÇé [²é¿´](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation "¼àÌıÊÂ¼ş×¢½â") <br/>
+è¯¦æƒ… [æŸ¥çœ‹](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation "ç›‘å¬äº‹ä»¶æ³¨è§£")
 
-*Ìí¼Ó @Async ¿ÉÒÔÒÔÒì²½µÄ·½Ê½´¦ÀíÊÂ¼ş£¬µ«ÊÇĞè×¢ÒâÒÔÏÂÁ½µã£º <br/>
-1 µ÷ÓÃÕß²»ÄÜ²¶»ñ´¦ÀíÊÂ¼ş¹ı³ÌÖĞÅÜ³öµÄÒì³£ <br/>
-2 ²»ÄÜ·¢ËÍ»Ø¸´ĞÅÏ¢ <br/>
+*æ·»åŠ  @Async å¯ä»¥ä»¥å¼‚æ­¥çš„æ–¹å¼å¤„ç†äº‹ä»¶ï¼Œä½†æ˜¯éœ€æ³¨æ„ä»¥ä¸‹ä¸¤ç‚¹ï¼š 
 
-*ÊÂ¼şÖ´ĞĞÅÅĞò @Order(number) <br/>
+1 è°ƒç”¨è€…ä¸èƒ½æ•è·å¤„ç†äº‹ä»¶è¿‡ç¨‹ä¸­è·‘å‡ºçš„å¼‚å¸¸ 
+2 ä¸èƒ½å‘é€å›å¤ä¿¡æ¯ 
 
-*Generic events£¨Í¨ÓÃÊÂ¼ş£© <br/>
+*äº‹ä»¶æ‰§è¡Œæ’åº @Order(number) <
+
+## Generic eventsï¼ˆé€šç”¨äº‹ä»¶ï¼‰ 
+
 You may also use generics to further define the structure of your event. Consider an EntityCreatedEvent<T>  <br/>
 where T is the type of the actual entity that got created. You can create the following listener definition  <br/>
 to only receive EntityCreatedEvent for a Person: <br/>
 
-	`@EventListener
+	@EventListener
 	public void onPersonCreated(EntityCreatedEvent<Person> event) {
 	    ...
-	}`
+	}
 
-#7 ÒÔJava EE RAR µÄĞÎÊ½²¿Êğspring Ó¦ÓÃ ÏêÇé [²é¿´](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar "java EE RARĞÎÊ½²¿Êğ") <br/>
+# ä»¥Java EE RAR çš„å½¢å¼éƒ¨ç½²spring åº”ç”¨ è¯¦æƒ… [æŸ¥çœ‹](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar "java EE RARå½¢å¼éƒ¨ç½²") 
 
-****×¢Òâ ApplicationContext °üº¬ÁË BeanFactory ËùÓĞµÄ¹¦ÄÜ£¬ÆÕÍ¨µÄBeanFactory ²»Ö§³ÖÀıÈçaopµÈºÜ¶àµÄÌØĞÔ£¬ÇÒÊµÏÖÒ»Ğ©¹¦ÄÜÌØ±ğµÄ·±Ëö¡£ <br/>
+**æ³¨æ„ ApplicationContext åŒ…å«äº† BeanFactory æ‰€æœ‰çš„åŠŸèƒ½ï¼Œæ™®é€šçš„BeanFactory ä¸æ”¯æŒä¾‹å¦‚aopç­‰å¾ˆå¤šçš„ç‰¹æ€§ï¼Œä¸”å®ç°ä¸€äº›åŠŸèƒ½ç‰¹åˆ«çš„ç¹çã€‚
