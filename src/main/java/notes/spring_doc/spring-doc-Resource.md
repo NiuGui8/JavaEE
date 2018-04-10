@@ -5,16 +5,16 @@
 # Resource
 	Spring 的 Resource接口能更好的处理底层资源.
 
-``public interface Resource extends InputStreamSource {	<br/>
-	boolean exists(); <br/>
-	boolean isOpen(); <br/>
-	URL getURL() throws IOException; <br/>
-	File getFile() throws IOException; <br/>
-	Resource createRelative(String relativePath) throws IOException; <br/>
-	String getFilename(); <br/>
-	String getDescription(); <br/>
-}``
+`public interface Resource extends InputStreamSource {`	
+	`boolean exists(); `
+	`boolean isOpen(); `
+	`URL getURL() throws IOException; `
+	`File getFile() throws IOException; `
+	`Resource createRelative(String relativePath) throws IOException; `
+	`String getFilename(); `
+	`String getDescription(); `
+`}`
 
-``public interface InputStreamSource { <br/>
-	InputStream getInputStream() throws IOException; <br/>
-}``
+`public interface InputStreamSource { `
+	`InputStream getInputStream() throws IOException; `
+`}`
