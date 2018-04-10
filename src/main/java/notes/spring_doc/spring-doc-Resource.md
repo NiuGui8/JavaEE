@@ -1,9 +1,9 @@
-# ¼ò½é
-	±ê×¼µÄjava.util.URL ¼°Æä´¦Àí·½Ê½£¬²»ÄÜºÜºÃµÄ¸ù¾İURLÀ´´¦Àíµ×²ã×ÊÔ´£¬ÀıÈç£º
-		*²»ÄÜÍ¨¹ıÀàÂ·¾¶À´´¦Àí¸÷ÖÖ×ÊÔ´
-		*»òÏà¶ÔÓÚServletContext 
+# ç®€ä»‹
+	æ ‡å‡†çš„java.util.URL åŠå…¶å¤„ç†æ–¹å¼ï¼Œä¸èƒ½å¾ˆå¥½çš„æ ¹æ®URLæ¥å¤„ç†åº•å±‚èµ„æºï¼Œä¾‹å¦‚ï¼š
+		*ä¸èƒ½é€šè¿‡ç±»è·¯å¾„æ¥å¤„ç†å„ç§èµ„æº
+		*æˆ–ç›¸å¯¹äºServletContext 
 # Resource
-	Spring µÄ Resource½Ó¿ÚÄÜ¸üºÃµÄ´¦Àíµ×²ã×ÊÔ´ :
+	Spring çš„ Resourceæ¥å£èƒ½æ›´å¥½çš„å¤„ç†åº•å±‚èµ„æº:
 
 	`public interface Resource extends InputStreamSource {
 		boolean exists();
