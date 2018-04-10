@@ -1,4 +1,4 @@
-# spring 官方文档阅读笔记 （@Configuration 的使用）###########
+# spring 官方文档阅读笔记 （@Configuration 的使用）
 
 ## 说明
   +@Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； 
@@ -193,11 +193,11 @@ For a common StandardServletEnvironment, the full hierarchy looks as follows, wi
 
 ### 标准监听事件： 
 
-1 ContextRefreshedEvent
-2 ContextStartedEvent
-3 ContextStoppedEvent
-4 ContextClosedEvent
-5 RequestHandledEvent
++ ContextRefreshedEvent
++ ContextStartedEvent
++ ContextStoppedEvent
++ ContextClosedEvent
++ RequestHandledEvent
 
 ### 事件监听注解 @EventListener
 
@@ -232,7 +232,7 @@ that defines a SpEL expression that should match to actually invoke the method f
 
 详情 [查看](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-functionality-events-annotation "监听事件注解")
 
-*添加 @Async 可以以异步的方式处理事件，但是需注意以下两点： 
+添加 @Async 可以以异步的方式处理事件，但是需注意以下两点： 
 
 1 调用者不能捕获处理事件过程中跑出的异常 
 2 不能发送回复信息 
@@ -252,4 +252,4 @@ to only receive EntityCreatedEvent for a Person: <br/>
 
 # 以Java EE RAR 的形式部署spring 应用 详情 [查看](https://docs.spring.io/spring/docs/5.0.4.RELEASE/spring-framework-reference/core.html#context-deploy-rar "java EE RAR形式部署") 
 
-**注意 ApplicationContext 包含了 BeanFactory 所有的功能，普通的BeanFactory 不支持例如aop等很多的特性，且实现一些功能特别的繁琐。
+注意 ApplicationContext 包含了 BeanFactory 所有的功能，普通的BeanFactory 不支持例如aop等很多的特性，且实现一些功能特别的繁琐。
