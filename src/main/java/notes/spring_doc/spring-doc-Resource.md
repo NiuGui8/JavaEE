@@ -99,8 +99,9 @@ ResourceLoader的实现类，可以返回一个资源实体：
 	public interface ResourceLoader {
 
 		Resource getResource(String location);
-
 	}
+
+
 ---
 
 ### 注意
@@ -114,14 +115,15 @@ ResourceLoader的实现类，可以返回一个资源实体：
 如果你想强制使用某一种实现类，可以在路径中加上前缀，如：想强制使用 `ClassPathResource`，就加上 classpath:
 
 	Resource template = ctx.getResource("classpath:some/resource/path/myTemplate.txt");
+
 ---
 
 
 <table>
   <tr>
-    <th width=330%>前缀</th>
-    <th width=33%,>例子</th>
-    <th width="34%">说明</th>
+    <th width=30%>前缀</th>
+    <th width=30%,>例子</th>
+    <th width="40%">说明</th>
   </tr>
   <tr>
     <td> classpath: </td>
@@ -143,3 +145,11 @@ ResourceLoader的实现类，可以返回一个资源实体：
     <td>  根据 ApplicationContext决定 </td>
   </tr>
 </table>
+
+
+# ResourceLoaderAware 
+
+
+	public interface ResourceLoaderAware {
+		void setResourceLoader(ResourceLoader resourceLoader);
+	}
