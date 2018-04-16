@@ -23,4 +23,6 @@ package 标签里
 
 	<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
 ### 4 jsp里的struts标签
-`<s:iterator>`、` <s:bean>`、` <s:peoperty>` 属性 id 改成 var
+`<s:iterator>`、` <s:bean>`、` <s:peoperty>` 等标签的属性 id 改成 var
+
+  * 注意： 控制台通常会报`ClassNotFoundException` 如果有某个相关jar包需同步升级，通过这个异常很容找到需要升级的jar包
