@@ -287,7 +287,7 @@ SpEL 可以使用xml配置方式也可以使用注解方式来定义 `BeanDefini
 	
 	String city = (String) parser.parseExpression("placeOfBirth.City").getValue(context);
 
-属性的第一个字母可以使不敏感的，数组和集合值使用 `[ ]` 来获取：
+属性的第一个字母可以是不敏感的，数组和集合值使用 `[ ]` 来获取：
 
 	ExpressionParser parser = new SpelExpressionParser();
 	

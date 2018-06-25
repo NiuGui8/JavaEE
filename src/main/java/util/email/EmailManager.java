@@ -1,4 +1,4 @@
-package com.szlabsun.wqimc.ins.util;
+package util.email;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
