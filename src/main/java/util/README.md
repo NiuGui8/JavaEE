@@ -11,3 +11,5 @@
 ### [wechat](./wechat '微信小程序uuid获取工具类')
 
 ### [ziputil](./ziputil '压缩解压工具类')
+
+### [随机码生成](./random '生成各种加密随机码')
