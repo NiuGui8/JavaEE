@@ -97,5 +97,138 @@ public class DataTransportUtil {
 			return null;
 		}
 	}
+
+	 /** 
+     *获取openid和secret
+     * */
+    public String queryOpenidAndSecret() {
+    	logger.info("【获取openid和secret】：[wxInstrumentStatusAction -- queryOpenidAndSecret] \n参数：code -- "+code);
+        String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";  //请求地址 https://api.weixin.qq.com/sns/jscode2session  
+        Map<String,String> requestUrlParam = new HashMap<String,String>();  
+        requestUrlParam.put("appid", "wx5aa27dff3b0d4008");  //开发者设置中的appId  
+        requestUrlParam.put("secret", "adeaac18c683a52589cc23d1069e3054"); //开发者设置中的appSecret  
+        requestUrlParam.put("js_code", code); //小程序调用wx.login返回的code  
+        requestUrlParam.put("grant_type", "authorization_code");    //默认参数  
+          
+        //发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识  
+        try {
+			byte[] post = HttpsUtil.post(requestUrl, "appid=wx5aa27dff3b0d4008&secret=adeaac18c683a52589cc23d1069e3054&js_code="+code+"&grant_type=authorization_code", "utf-8");
+			String result = new String(post);  
+			actionResult = ActionResult.getActionResult(new OpAttributes().add("result", result));
+			return returnType();
+		} catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+			actionResult = ActionResult.getActionResult(new OpAttributes().add("result", null));
+			return returnType();
+		}
+    }
+
+    /** 
+     *获取openid和secret
+     * */
+    public String queryOpenidAndSecret() {
+    	logger.info("【获取openid和secret】：[wxInstrumentStatusAction -- queryOpenidAndSecret] \n参数：code -- "+code);
+        String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";  //请求地址 https://api.weixin.qq.com/sns/jscode2session  
+        Map<String,String> requestUrlParam = new HashMap<String,String>();  
+        requestUrlParam.put("appid", "wx5aa27dff3b0d4008");  //开发者设置中的appId  
+        requestUrlParam.put("secret", "adeaac18c683a52589cc23d1069e3054"); //开发者设置中的appSecret  
+        requestUrlParam.put("js_code", code); //小程序调用wx.login返回的code  
+        requestUrlParam.put("grant_type", "authorization_code");    //默认参数  
+          
+        //发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识  
+        try {
+			byte[] post = HttpsUtil.post(requestUrl, "appid=wx5aa27dff3b0d4008&secret=adeaac18c683a52589cc23d1069e3054&js_code="+code+"&grant_type=authorization_code", "utf-8");
+			String result = new String(post);  
+			actionResult = ActionResult.getActionResult(new OpAttributes().add("result", result));
+			return returnType();
+		} catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+			actionResult = ActionResult.getActionResult(new OpAttributes().add("result", null));
+			return returnType();
+		}
+    }
+    
+    
+    /**
+     * 获取access_token
+     * */
+    public String getAccessToken() {
+    	try {
+			byte[] post = HttpsUtil.post("https://api.weixin.qq.com/cgi-bin/token", 
+					"grant_type=client_credential&appid=wx5aa27dff3b0d4008&secret=adeaac18c683a52589cc23d1069e3054", "UTF-8");
+			
+			String replaceAll = new String(post).replace("{","").replace("}","").replaceAll("\"", "");
+			String accessToken = replaceAll.split(",")[0].split(":")[1];
+			return accessToken;
+		} catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
+    /**
+     * byte数组到图片
+     * **/
+    public void byte2image(byte[] data,String path){
+      if(data.length<3||path.equals("")) return;
+      try{
+      FileImageOutputStream imageOutput = new FileImageOutputStream(new File(path));
+      imageOutput.write(data, 0, data.length);
+      imageOutput.close();
+      logger.info("Make Picture success,Please find image in " + path);
+      } catch(Exception ex) {
+        logger.error("Exception: " + ex);
+        ex.printStackTrace();
+      }
+    }
+
+    /**
+     * 生产二维码
+     * @param ins 
+     * */
+	private byte[] getQRImage(Instrument ins) {
+		logger.info("二维码生成中...");
+		//判断仪器是否已连接上
+		InstrumentBridgeService instance = InstrumentBridgeService.getInstance();
+		String connectStatus = "2";
+		//获取accessToken
+		String accessToken = getAccessToken();
+		//获取小程序码
+		String requestUrl = "https://api.weixin.qq.com/wxa/getwxacode?access_token=" + accessToken;  //请求地址   
+		String json = "{"
+						+ "\"path\":\"pages/qrcode/qrcode?insId="+ins.getId()
+						+ "&cs=" + connectStatus
+			        	+ "&p=" + ((ins.getProportion() != null && ins.getProportion() >0) ? ins.getProportion() : "1")
+			        	+ "&u=" + (ins.getUnit() == null ? "mg/L" : ins.getUnit()) +"\""
+					+ "}";
+        try {
+			byte[] post = HttpsUtil.post(requestUrl
+					, json
+					, "utf-8");
+			String result = new String(post);
+			return post;
+		} catch (KeyManagementException | NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}  
+	}
+	
+	  
+	  /**
+	   * 生成随机码
+	   * @param num 随机码长度
+	   * @return string
+	   * */
+	  public String getRandomCode(int num) {
+		  String chars = "2356789qwertyupkjhgfdsazxcvbnmQWERTYUPLKJHGFDSAZXCVBNM";
+		  char[] charArray = chars.toCharArray();
+		  StringBuffer sb = new StringBuffer("");
+		  
+		  for(int i=0; i<num; i++) {
+			  sb.append(charArray[(int)(Math.random()*54)]);
+		  }
+		  return sb.toString();
+	  }
+
 	
 }
