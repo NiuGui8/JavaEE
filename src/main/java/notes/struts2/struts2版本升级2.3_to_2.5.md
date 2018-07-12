@@ -26,3 +26,8 @@ package 标签里
 `<s:iterator>`、` <s:bean>`、` <s:peoperty>` 等标签的属性 id 改成 var
 
   * 注意： 控制台通常会报`ClassNotFoundException` 如果有某个相关jar包需同步升级，通过这个异常很容找到需要升级的jar包
+
+
+[此处有篇记录的较为详细的博客](https://blog.csdn.net/pazezhe314/article/details/79691741 '点击查看详情')
+
+[strut2s 配置文件详解](https://blog.csdn.net/wuzfxx/article/details/7472847 '点击查看详情')
