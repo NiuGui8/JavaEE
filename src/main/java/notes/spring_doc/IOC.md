@@ -1,7 +1,7 @@
 # spring 官方文档阅读笔记 （@Configuration 的使用）
 
 ## 说明
-  + @Configuration 是一个累计别的注解，它指明了一个bean 定义的来源的一个对象； 
+  + @Configuration 是一个类计别的注解，它指明了一个bean 定义的来源的一个对象； 
   + @Configuration 通过被 @bean注解的方法来声明bean。
 
 ## 只有在 @Configuration 注解上的类中，且使用了 @Bean 的方法中，才能声明内部bean（即调用其他 @bean方法）：
