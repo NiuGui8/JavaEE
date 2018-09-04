@@ -27,7 +27,7 @@ Spring 提供了几个开箱即用的 `ApplicationContext` 的实现类，在独
 
 下图是 Spring 如何工作的一张高级视图，您的应用程序类与配置元数据相结合，以便在创建和初始化ApplicationContext之后，您就拥有了一个完全配置和可执行的系统或应用程序。
 
-![图片不见了](https://github.com/NiuGui8/JavaEE/tree/master/src/main/java/notes/images/container-magic.png 'Spring 工作原理图')
+![图片不见了](./images/container-magic.png 'Spring 工作原理图')
 
 ### 2.1 配置元数据
 
