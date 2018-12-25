@@ -14,3 +14,7 @@ Validation, Data Binding, and Type Conversion 的缩写。
 
 ## [SpEL](./SpEL.md)
 Spring Expression Languge   类似于 struts2 的 NGOL 表达式，但是功能更强大，同样可以脱离 Spring 大家族独立使用。 
+
+## 其他
+
+- [Spring注解配置事务注意事项](./Spring注解配置事务注意事项.md)
